@@ -21,7 +21,6 @@ router.get('/', async (req, res) => {
             }
 
             const query: EventQueryType = parsedQuery.data;
-            console.log(query.eventId)
 
             const event = await Event.findOne({
                 _id: query.eventId

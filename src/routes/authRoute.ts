@@ -55,8 +55,6 @@ router.post('/signup', express.json(), async (req, res) => {
             { expiresIn: '7d' }
         );
 
-        console.log(token)
-
         res.status(201).json({
             msg: "User Created",
             data: {
