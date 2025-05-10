@@ -39,7 +39,8 @@ router.post('/signup', express.json(), async (req, res) => {
             phoneNo: body.phoneNo,
             password: hashedPassword
         });
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        console.log(token);
         res.status(201).json({
             msg: "User Created",
             data: {
@@ -90,7 +91,7 @@ router.post('/signin', express.json(), async (req, res) => {
             });
             return;
         }
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.status(200).json({
             msg: "User Signed In",
             data: {

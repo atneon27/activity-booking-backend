@@ -50,10 +50,12 @@ router.post('/signup', express.json(), async (req, res) => {
         }); 
 
         const token = jwt.sign(
-            { userId: user.id },
+            { userId: user._id },
             process.env.JWT_SECRET as string,
             { expiresIn: '7d' }
         );
+
+        console.log(token)
 
         res.status(201).json({
             msg: "User Created",
@@ -113,7 +115,7 @@ router.post('/signin', express.json(), async (req, res) => {
         }
 
         const token = jwt.sign(
-            { userId: user.id },
+            { userId: user._id },
             process.env.JWT_SECRET as string,
             { expiresIn: '7d' }
         );

@@ -86,6 +86,22 @@ router.put('/', express.json(), async (req, res) => {
         const query: EventQueryType = parsedQuery.data;
         const body: EventType = parsedBody.data;
 
+        const uniqueEvent = await Event.findOne({
+            title: body.title,
+            description: body.description,
+            location: body.location,
+            eventTime: body.eventTime
+        });
+
+        if(!uniqueEvent) {
+            res.status(400).json({
+                msg: null,
+                data: null,
+                error: "Event Does Not Exist"
+            });
+            return;
+        }
+
         const event = await Event.findOneAndUpdate({
             id: query.eventId
         }, {
@@ -175,6 +191,19 @@ router.delete('/', async (req, res) => {
         }
 
         const query: EventQueryType = parsedQuery.data;
+
+        const uniqueEvent = await Event.findOne({
+            id: query.eventId
+        });
+
+        if(!uniqueEvent) {
+            res.status(400).json({
+                msg: null,
+                data: null,
+                error: "Event Does Not Exist"
+            });
+            return;
+        }
 
         const event = await Event.findOneAndDelete({
             id: query.eventId

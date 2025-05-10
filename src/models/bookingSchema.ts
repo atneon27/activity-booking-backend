@@ -6,9 +6,9 @@ const bookingSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    activity: {
+    event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Activity",
+        ref: "Event",
         required: true
     },
     createdOn: {
