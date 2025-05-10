@@ -147,7 +147,7 @@ router.post('/', express.json(), async (req, res) => {
             eventTime: body.eventTime
         });
         
-        if(body.eventTime < new Date() || !uniqueEvent) {
+        if(body.eventTime < new Date() || !!uniqueEvent) {
             res.status(400).json({
                 msg: null,
                 data: null,
