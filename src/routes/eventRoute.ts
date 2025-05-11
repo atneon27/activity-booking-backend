@@ -2,12 +2,29 @@ import express, { Router } from "express";
 import { Event } from "../models/eventSchema.js";
 import { EventSchema, EventQuerySchema, EventType, EventQueryType } from "../types/types.js";
 import authMiddleware from "../middleware/middleware.js";
+import errorMap from "zod/lib/locales/en.js";
 
 const router = Router();
 
-router.use(authMiddleware);
+router.get('/all', async (req, res) => {
+    try {
+        const events = await Event.find({});
+        
+        res.status(200).json({
+            msg: "Events Retrieved",
+            data: events,
+            error: null
+        });
+    } catch(err) {
+        res.status(500).json({
+            msg: null,
+            data: null,
+            error: "Internal Server Error"
+        });
+    }
+});
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
         if(req.query.eventId) {
             const parsedQuery = EventQuerySchema.safeParse(req.query);
@@ -68,7 +85,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.put('/', express.json(), async (req, res) => {
+router.put('/', authMiddleware, express.json(), async (req, res) => {
     try {
         const parsedQuery = EventQuerySchema.safeParse(req.query);
         const parsedBody = EventSchema.safeParse(req.body);
@@ -124,7 +141,7 @@ router.put('/', express.json(), async (req, res) => {
     }
 });
 
-router.post('/', express.json(), async (req, res) => {
+router.post('/', authMiddleware, express.json(), async (req, res) => {
     try {
         const parsedBody = EventSchema.safeParse(req.body);
 
@@ -176,7 +193,7 @@ router.post('/', express.json(), async (req, res) => {
     }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/', authMiddleware, async (req, res) => {
     try {
         const parsedQuery = EventQuerySchema.safeParse(req.query);
 
