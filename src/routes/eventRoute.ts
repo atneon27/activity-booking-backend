@@ -212,7 +212,7 @@ router.delete('/', authMiddleware, async (req, res) => {
             id: query.eventId
         });
 
-        if(!uniqueEvent) {
+        if(!!uniqueEvent) {
             res.status(400).json({
                 msg: null,
                 data: null,
